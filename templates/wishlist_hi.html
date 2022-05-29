@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CUbuntu:300,400,500,700" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="static/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="static/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="static/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="static/css/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="static/css/nouislider.min.css">
+    <link rel="stylesheet" href="static/css/ionicons.min.css">
+    <link rel="stylesheet" href="static/css/plyr.css">
+    <link rel="stylesheet" href="static/css/photoswipe.css">
+    <link rel="stylesheet" href="static/css/default-skin.css">
+    <link rel="stylesheet" href="static/css/main.css">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="static/icon/favicon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="static/icon/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="static/icon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="static/icon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="static/icon/apple-touch-icon-144x144.png">
+
+    <!-- autocomplete -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        /*the container must be positioned relative:*/
+        .Yautocomplete {
+            position: relative;
+            display: inline-block;
+        }
+
+        input {
+            border: 1px solid transparent;
+            background-color: #f1f1f1;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        input[type=text] {
+            background-color: #f1f1f100;
+            width: 100%;
+        }
+
+        input[type=submit] {
+            background-color: DodgerBlue;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .Yautocomplete-items {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            border-bottom: none;
+            border-top: none;
+            z-index: 99;
+            /*position the autocomplete items to be the same width as the container:*/
+            top: 100%;
+            left: 0;
+            right: 0;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(255, 255, 255, .8) url('http://i.stack.imgur.com/FhHRx.gif') 50% 50% no-repeat;
+        }
+
+        .Yautocomplete-items div {
+            margin-left: 50px;
+            padding: 10px;
+            cursor: pointer;
+            background-color: #434141;
+            border-bottom: 1px solid #d4d4d4;
+        }
+
+        /*when hovering an item:*/
+        .Yautocomplete-items div:hover {
+            background-color: #e9e9e9;
+        }
+
+        /*when navigating through the items using the arrow keys:*/
+        .Yautocomplete-active {
+            background-color: DodgerBlue !important;
+            color: #ffffff;
+        }
+    </style>
+
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="Dmitry Volkov">
+    <title>FlixGo – Personalised Movies Recommender</title>
+
+</head>
+
+<body class="body">
+
+    <!-- header -->
+    <header class="header">
+        <div class="header__wrap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="header__content">
+                            <!-- header logo -->
+                            <a href="user_dash_hi.html" class="header__logo">
+                                <img src="static/images/logo.svg" alt="">
+                            </a>
+                            <!-- end header logo -->
+
+                            <!-- header nav -->
+                            <ul class="header__nav">
+                                <!-- dropdown -->
+                                <li class="header__nav-item">
+									<a href="/user_dashboard_hi" class="header__nav-link">Home</a>
+								</li>
+                                <!-- end dropdown -->
+
+                                <!-- dropdown -->
+                                <li class="header__nav-item">
+                                    <a class="dropdown-toggle header__nav-link" href="#" role="button"
+                                        id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">Language Preferences</a>
+
+                                    <ul class="dropdown-menu header__dropdown-menu"
+                                        aria-labelledby="dropdownMenuCatalog">
+                                        <li><a href="/user_dashboard">English (US)</a></li>
+                                        <li><a href="/user_dashboard_hi">Hindli (IN)</a></li>
+                                    </ul>
+                                </li>
+                                <!-- end dropdown -->
+
+                                <li class="header__nav-item">
+                                    <a href="/my_wishlist_hi" class="header__nav-link">My Wishlist</a>
+                                </li>
+
+                            </ul>
+                            <!-- end header nav -->
+
+                            <!-- header auth -->
+                            <div class="header__auth">
+
+                                <a href="/signout" class="header__sign-in">
+                                    <i class="icon ion-ios-log-in"></i>
+                                    <span>sign out</span>
+                                </a>
+
+                                <a href="#" class="header__sign-in">
+                                    <i class="icon ion-ios-log-in"></i>
+                                    <span>Hi {{current_user.user_name}}!</span>
+                                </a>
+
+
+                                <!-- <a href="#" class="dropdown-toggle header__nav-link" aria-haspopup="false"
+									aria-expanded="true"><span>Hi {{current_user.user_name}} !!!</span></a> -->
+                            </div>
+                            <!-- end header auth -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- header search -->
+        <form action="/personalised_search_hi" autocomplete="off" method="post">
+            <div class="row">
+                <div class="col-10">
+                    <div style="width:80%; padding-left: 5%;">
+                        <input id="myInput" type="text" name="movie"
+                            placeholder="Search for a movie that you are looking for..." style="color: #fff;" required>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <button type="submit" class=""><i class="icon ion-ios-search"
+                            style="font-size: 30px; color: white;"></i></button>
+
+                </div>
+            </div>
+        </form>
+        <!-- end header search -->
+    </header>
+    <!-- end header -->
+
+    <!-- home -->
+    <section class="home">
+        <!-- home bg -->
+        <div class="owl-carousel home__bg">
+            <div class="item home__cover" data-bg="static/images/home/home__bg.jpg"></div>
+            <div class="item home__cover" data-bg="static/images/home/home__bg2.jpg"></div>
+            <div class="item home__cover" data-bg="static/images/home/home__bg3.jpg"></div>
+            <div class="item home__cover" data-bg="static/images/home/home__bg4.jpg"></div>
+        </div>
+        <!-- end home bg -->
+
+        <!-- Wishlist -->
+        <section class="content">
+            <div class="content__head">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                           
+                            <!-- content title -->
+                            <h1 class="content__title"><b>YOUR WISHLIST </b></h1>
+                            <!-- end content title -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <!-- content tabs -->
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
+                        <div class="row">
+                            <!-- card -->
+                            {% for i in postsdata %}
+                            <div class="col-6 col-sm-12 col-lg-6">
+                                <div class="card card--list">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-4">
+                                            <div class="card__cover">
+                                                <img src="{{i[1]}}" alt="">
+                                                <a href="#" class="card__play">
+                                                    <form method="post" action="/details2_hi">
+                                                        <input type="hidden" name="movie" value="{{i[0]}}">
+                                                        <button style="color:aliceblue" class="icon ion-ios-play"
+                                                            type="submit"></button>
+                                                    </form>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-sm-8">
+                                            <div class="card__content">
+                                                <h3 class="card__title"><a href="#">{{i[0]}}</a></h3>
+                                                <span class="card__category">
+                                                    {% for j in i[3] %}
+                                                    <a href="#">{{j}}</a>
+                                                    {% endfor %}
+                                                </span>
+
+                                                <div class="card__wrap">
+                                                    <span class="card__rate"><i
+                                                            class="icon ion-ios-star"></i>{{i[2]}}</span>
+
+                                                    <ul class="card__list">
+                                                        <li>HD</li>
+                                                        <li>16+</li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="card__description">
+                                                    <p>{{i[4]}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <!-- end card -->
+                        </div>
+                    </div>
+                </div>
+                <!-- end content tabs -->
+            </div>
+        </section>
+        <!-- end wishlist -->
+    </section>
+
+
+    <!-- footer -->
+    <footer class="footer">
+        <div class="container">
+            <!-- <div class="row"> -->
+
+            <!-- footer copyright -->
+            <!-- <div class="col-12"> -->
+            <div class="footer__copyright">
+                <small><a target="_blank" href="https://www.linkedin.com/in/yash-sharma-3b60041a7">Made with<span
+                            style="font-size:150%;color:red;"> &hearts; </span>by Yash</a></small>
+
+                <ul>
+                    <li><a href="#">Go To Top</a></li>
+                </ul>
+            </div>
+            <!-- </div> -->
+            <!-- end footer copyright -->
+            <!-- </div> -->
+        </div>
+    </footer>
+    <!-- end footer -->
+
+    <!-- JS -->
+    <script src="static/js/jquery-3.3.1.min.js"></script>
+    <script src="static/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/owl.carousel.min.js"></script>
+    <script src="static/js/jquery.mousewheel.min.js"></script>
+    <script src="static/js/jquery.mCustomScrollbar.min.js"></script>
+    <script src="static/js/wNumb.js"></script>
+    <script src="static/js/nouislider.min.js"></script>
+    <script src="static/js/plyr.min.js"></script>
+    <script src="static/js/jquery.morelines.min.js"></script>
+    <script src="static/js/photoswipe.min.js"></script>
+    <script src="static/js/photoswipe-ui-default.min.js"></script>
+    <script src="static/js/main.js"></script>
+
+    <!-- Auto-complete  -->
+
+    <script>
+        function autocomplete(inp, arr) {
+            /*the autocomplete function takes two arguments,
+            the text field element and an array of possible autocompleted values:*/
+            var currentFocus;
+            /*execute a function when someone writes in the text field:*/
+            inp.addEventListener("input", function (e) {
+                var a, b, i, val = this.value;
+                /*close any already open lists of autocompleted values*/
+                closeAllLists();
+                if (!val) { return false; }
+                currentFocus = -1;
+                /*create a DIV element that will contain the items (values):*/
+                a = document.createElement("DIV");
+                a.setAttribute("id", this.id + "Yautocomplete-list");
+                a.setAttribute("class", "Yautocomplete-items");
+                /*append the DIV element as a child of the autocomplete container:*/
+                this.parentNode.appendChild(a);
+                /*for each item in the array...*/
+                for (i = 0; i < arr.length; i++) {
+                    /*check if the item starts with the same letters as the text field value:*/
+                    if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                        /*create a DIV element for each matching element:*/
+                        b = document.createElement("DIV");
+                        b.style.color = "white";
+                        /*make the matching letters bold:*/
+                        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                        b.innerHTML += arr[i].substr(val.length);
+                        /*insert a input field that will hold the current array item's value:*/
+                        b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                        /*execute a function when someone clicks on the item value (DIV element):*/
+                        b.addEventListener("click", function (e) {
+                            /*insert the value for the autocomplete text field:*/
+                            inp.value = this.getElementsByTagName("input")[0].value;
+                            /*close the list of autocompleted values,
+                            (or any other open lists of autocompleted values:*/
+                            closeAllLists();
+                        });
+                        a.appendChild(b);
+                    }
+                }
+            });
+            /*execute a function presses a key on the keyboard:*/
+            inp.addEventListener("keydown", function (e) {
+                var x = document.getElementById(this.id + "autocomplete-list");
+                if (x) x = x.getElementsByTagName("div");
+                if (e.keyCode == 40) {
+                    /*If the arrow DOWN key is pressed,
+                    increase the currentFocus variable:*/
+                    currentFocus++;
+                    /*and and make the current item more visible:*/
+                    addActive(x);
+                } else if (e.keyCode == 38) { //up
+                    /*If the arrow UP key is pressed,
+                    decrease the currentFocus variable:*/
+                    currentFocus--;
+                    /*and and make the current item more visible:*/
+                    addActive(x);
+                } else if (e.keyCode == 13) {
+                    /*If the ENTER key is pressed, prevent the form from being submitted,*/
+                    e.preventDefault();
+                    if (currentFocus > -1) {
+                        /*and simulate a click on the "active" item:*/
+                        if (x) x[currentFocus].click();
+                    }
+                }
+            });
+            function addActive(x) {
+                /*a function to classify an item as "active":*/
+                if (!x) return false;
+                /*start by removing the "active" class on all items:*/
+                removeActive(x);
+                if (currentFocus >= x.length) currentFocus = 0;
+                if (currentFocus < 0) currentFocus = (x.length - 1);
+                /*add class "autocomplete-active":*/
+                x[currentFocus].classList.add("Yautocomplete-active");
+            }
+            function removeActive(x) {
+                /*a function to remove the "active" class from all autocomplete items:*/
+                for (var i = 0; i < x.length; i++) {
+                    x[i].classList.remove("Yautocomplete-active");
+                }
+            }
+            function closeAllLists(elmnt) {
+                /*close all autocomplete lists in the document,
+                except the one passed as an argument:*/
+                var x = document.getElementsByClassName("Yautocomplete-items");
+                for (var i = 0; i < x.length; i++) {
+                    if (elmnt != x[i] && elmnt != inp) {
+                        x[i].parentNode.removeChild(x[i]);
+                    }
+                }
+            }
+            /*execute a function when someone clicks in the document:*/
+            document.addEventListener("click", function (e) {
+                closeAllLists(e.target);
+            });
+        }
+
+        /*An array containing all the movie names:*/
+        var movies_list = ['anjaane', 'apradhi kaun', 'baaghi', 'kuch kuch hota hai', 'beti no.1', 'bhai thakur', 'bichhoo', 'bulandi', 'chal mere bhai', 'champion', 'dahshat', 'dhadkan', 'dulhan hum le jayenge', 'fiza', 'gaja gamini', 'ghaath', 'hadh kar di aapne', 'hamara dil aapke paas hai', 'har dil jo pyar karega', 'hera pheri', 'hum to mohabbat karega', 'jis desh mein ganga rehta hain', 'jung', 'jungle', 'kahin pyaar na ho jaaye', 'kaho naa... pyaar hai', 'khiladi 420', 'kya kehna', 'mela', 'mission kashmir', 'mohabbatein', 'papa the great', 'phir bhi dil hai hindustani', 'raja ko rani se pyar ho gaya', 'raju chacha', 'refugee', 'shikaar', 'shikari', 'tera jadoo chal gayaa', 'tere liye', 'aamdani atthanni kharcha rupaiya', 'aashiq', 'ajnabee', 'aks', 'aśoka', 'bas itna sa khwaab hai', 'bengal tiger', 'chandni bar', 'chori chori chupke chupke', 'daman', 'dattak', 'dil chahta hai', 'dil ne phir yaad kiya', 'ek rishtaa: the bond of love', 'farz', 'gadar: ek prem katha', 'hum ho gaye aapke', 'indian', 'jodi no.1', 'kabhi khushi kabhie gham...', 'kasam', 'kuch khatti kuch meethi', 'kyo kii main jhuth nahin bolta', 'lagaan: once upon a time in india', 'lajja', 'maya', 'moksha', 'mujhe kucch kehna hai', 'mujhe meri biwi se bachaao', 'nayak', 'officer', 'one 2 ka 4', 'paagalpan', 'pyaar ishq aur mohabbat', 'pyaar tune kya kiya', 'pyaar zindagi hai', 'rahul', 'rehnaa hai terre dil mein', 'style', 'tera mera saath rahen', 'tum bin', 'yaadein', 'yeh teraa ghar yeh meraa ghar', 'zubeidaa', '23rd march 1931: shaheed', 'aankhen', 'aap mujhe achche lagne lage', 'ab ke baras', 'agni varsha', 'akhiyon se goli maare', 'awara paagal deewana', 'badhaai ho badhaai', 'chor machaaye shor', 'company', 'deewangee', 'devdas', 'dil hai tumhaara', 'dil vil pyar vyar', 'gunaah', 'haan maine bhi pyaar kiya', 'hum kisise kum nahin', 'hum tumhare hain sanam', 'humraaz', 'jaani dushman: ek anokhi kahani', 'jeena sirf merre liye', 'kaante', 'kehtaa hai dil baar baar', 'kitne door kitne paas', 'koi mere dil se poochhe', 'kranti', 'kuch tum kaho kuch hum kahein', 'kya yehi pyaar hai', 'lal salaam', 'maine dil tujhko diya', 'makdee', 'mere yaar ki shaadi hai', 'mujhse dosti karoge!', 'mulaqaat', 'na tum jaano na hum', 'om jai jagadish', 'pitaah', 'pyaasa', 'raaz', 'rishtey', 'saathiya', 'shaheed-e-azam', 'shakti - the power', 'soch', 'sur: the melody of life', 'the legend of bhagat singh', 'tumko na bhool paayenge', 'tum se achcha kaun hai', 'waah! tera kya kehna', 'yeh hai jalwa', 'zindagi khoobsoorat hai', '3 deewarein', '88 antop hill', 'aanch', 'aapko pehle bhi kahin dekha hai', 'andaaz', 'armaan', 'baaz: a bird in danger', 'baghban', 'bas yun hi', 'basti', 'chalte chalte', 'chori chori', 'darna mana hai', 'dhund', 'dil ka rishta', 'dum', 'ek aur ek gyarah', 'footpath', 'fun2shh... dudes in the 10th century', 'gangaajal', 'hawa', 'hawayein', 'the hero: love story of a spy', 'hungama', 'ishq vishk', 'jhankaar beats', 'jism', 'joggers park', 'kaash... hamara dil pagal na hota', 'kal ho naa ho', 'kash aap hamare hote', 'khanjar: the knife', 'khwahish', 'koi... mil gaya', 'kuch naa kaho', 'loc: kargil', 'main madhuri dixit banna chahti hoon', 'mumbai matinee', 'mumbai se aaya mera dost', 'munna bhai m.b.b.s.', 'nayee padosan', 'om', 'pinjar', 'praan jaye par shaan na jaye', 'qayamat: city under threat', 'raghu romeo', 'raja bhaiya', 'saaya', 'sssshhh...', 'talaash: the hunt begins...', 'tehzeeb', 'tere naam', 'tujhe meri kasam', 'xcuse me', 'zameen', 'aabra ka daabra', 'aan: men at work', 'aetbaar', 'aitraaz', 'asambhav', 'bardaasht', 'chameli', 'charas', 'deewaar', 'dev', 'dhoom', 'dil maange more', 'dil ne jise apna kahaa', 'dobara', 'ek hasina thi', 'fida', 'garv', 'gayab', 'girlfriend', 'hava aney dey', 'hulchul', 'hum tum', 'i proud to be an indian', 'insaaf: the justice', 'inteqam: the perfect game', 'ishq hai tumse', 'julie', 'kaya taran', 'khakee', 'kismat', 'kiss kis ko', 'krishna cottage', 'kyun! ho gaya na...', 'lakeer – forbidden lines', 'lakshya', 'madhoshi', 'main hoon na', 'maqbool', 'mujhse shaadi karogi', 'musafir', 'naach', 'netaji subhas chandra bose: the forgotten hero', 'paap', 'paisa vasool', 'rakht', 'shaadi ka laddoo', 'shart: the challenge', 'sheen', 'swades', 'taarzan: the wonder car', 'tumsa nahin dekha: a love story', 'veer-zaara', 'wajahh: a reason to kill', 'woh', 'yeh lamhe judaai ke', 'yuva', 'aashiq banaya aapne', 'anjaane', 'apaharan', 'barsaat', 'bewafaa', 'blackmail', 'bluffmaster!', 'bullet: ek dhamaka', 'bunty aur babli', 'chand sa roshan chehra', 'chehraa', 'deewane huye paagal', 'dil jo bhi kahey...', 'dosti: friends forever', 'dus', 'ek ajnabee', 'ek khiladi ek haseena', 'elaan', 'fareb', 'film star', 'fun – can be dangerous sometimes', 'garam masala', 'hazaaron khwaishein aisi', 'home delivery', 'hum dum', 'iqbal', 'jo bole so nihaal', 'jurm', 'karam', 'kasak', 'khamoshh... khauff ki raat', 'kisna: the warrior poet', 'koi aap sa', 'koi mere dil mein hai', 'kuchh meetha ho jaye', 'kyaa kool hai hum', 'kyon ki', 'lucky: no time for love', 'main aisa hi hoon', 'main, meri patni aur woh', 'maine pyaar kyun kiya?', 'mangal pandey: the rising', 'mazaa mazaa', 'mr ya miss', 'my brother... nikhil', "my wife's murder", 'naam gum jaayega', "neal 'n' nikki", 'no entry', 'page 3', 'pehchaan: the face of truth', 'paheli', 'parineeta', 'pyaar mein twist', 'ramji londonwale', 'revati', 'rog', 'salaam namaste', 'sehar', 'shaadi no. 1', 'shabd', 'sheesha', 'shikhar', 'silsiilay', 'socha na tha', 'taj mahal: an eternal love story', 'the film', 'vaada', 'vaah! life ho toh aisi!', 'viruddh... family comes first', 'yahaan', 'yakeen', '36 china town', 'aap ki khatir', 'aatma', 'ahista ahista', 'aksar', 'alag', 'anthony kaun hai?', 'apna sapna money money', 'aryan: unbreakable', 'baabul', 'banaras', 'bas ek pal', 'bhagam bhag', 'chand ke paar chalo', 'chingaari', 'chup chup ke', 'corporate', 'darna zaroori hai', 'darwaaza bandh rakho', 'deadline: sirf 24 ghante', 'dhoom 2', 'dil diya hai', 'don', 'dor', 'fanaa', 'fight club – members only', 'gangster', 'golmaal: fun unlimited', 'haseena', 'humko deewana kar gaye', 'humko tumse pyaar hai', 'jaan-e-mann', 'jawani diwani', 'kabul express', 'kabhi alvida naa kehna', 'khosla ka ghosla', 'krishna', 'lage raho munna bhai', 'malamaal weekly', 'mere jeevan saathi', 'naksha', 'omkara', 'phir hera pheri', 'prateeksha', 'pyaar ke side effects', 'pyare mohan', 'rang de basanti', 'saawan... the love season', 'sandwich', 'sarhad paar', 'shaadi karke phas gaya yaar', 'shikhar', 'tathastu', 'taxi no. 9211', 'teesri aankh: the hidden camera', 'umar', 'umrao jaan', 'woh lamhe...', 'yun hota toh kya hota', 'zinda', 'zindaggi rocks', '1971', '68 pages', 'aaja nachle', 'aap kaa surroor', 'aggar', 'anjaam', 'anwar', 'apna asmaan', 'apne', 'awarapan', 'bal ganesh', 'benaam', 'bhool bhulaiyaa', 'bhram', 'big brother', 'black friday', 'the blue umbrella', 'bombay to goa', 'buddha mar gaya', 'chak de! india', 'cheeni kum', 'chhodon naa yaar', 'chooriyan', 'darling', 'delhii heights', 'dhamaal', 'dharm', 'dhokha', 'dil dosti etc', 'dus kahaniyaan', 'ek chalis ki last local', 'eklavya: the royal guard', 'fool & final', 'gandhi, my father',
+            "good boy bad boy", 'guru', 'hattrick', 'heyy babyy', 'honeymoon travels pvt. ltd.', 'jab we met', 'jhoom barabar jhoom', 'johnny gaddaar', 'just married', 'khoya khoya chand', 'kya love story hai', 'laaga chunari mein daag', 'life in a... metro', 'life mein kabhie kabhiee', 'manorama six feet under', 'mp3: mera pehla pehla pyaar', 'mumbai salsa', 'my bollywood bride', 'namastey london', 'nanhe jaisalmer', 'naqaab', 'nehlle pe dehlla', 'nishabd', 'no smoking', 'om shanti om', 'partner', 'red: the dark side', 'red swastik', 'risk', 'saawariya', 'sarhad paar', 'say salaam india', 'shakalaka boom boom', 'shootout at lokhandwala', 'sunglass', 'swami', 'ta ra rum pum', 'taare zameen par', 'traffic signal', 'victoria no. 203', 'welcome', 'halla bol', 'my name is anthony gonsalves', 'tulsi', 'jodhaa akbar', 'black & white', 'race', 'one two three', 'shaurya', 'krazzy 4', 'u me aur hum', 'pehli nazar ka pyaar', 'sirf', 'tashan', 'mr. black mr. white', 'anamika', 'bhoothnath', 'jannat', 'don muthu swami', 'woodstock villa', 'aamir', 'sarkar raj', 'mere baap pehle aap', 'summer 2007', 'de taali', 'haal-e-dil', 'thoda pyaar thoda magic', 'thodi life thoda magic', 'jaane tu... ya jaane na', 'love story 2050', 'mehbooba', 'kismat konnection', 'contract', 'mission istaanbul', 'money hai toh honey hai', 'ugly aur pagli', 'singh is kinng', 'bachna ae haseeno', 'god tussi great ho', 'phoonk', 'mumbai meri jaan', 'rock on!!', 'c kkompany', 'chamku', 'mukhbiir', 'a wednesday!', 'tahaan', '1920', 'welcome to sajjanpur', 'saas bahu aur sensex', 'kidnap', 'drona', 'hello', 'karzzzz',
+            'golmaal returns', 'fashion', 'ek vivaah... aisa bhi', 'dasvidaniya', 'dostana', 'deshdrohi', 'yuvvraaj', 'gumnaam – the mystery', 'oye lucky! lucky oye!', 'maharathi', 'dil kabaddi', 'oh, my god', 'rab ne bana di jodi', 'ghajini', 'chandni chowk to china', 'aasma: the sky is the limit', 'raaz: the mystery continues', 'luck by chance', 'dev.d', 'chal chala chal', 'mere khwabon mein jo aaye', 'billu', 'delhi-6', 'kisse pyaar karoon', 'dhoondte reh jaaoge', 'jai veeru', 'gulaal', 'aloo chaat', 'barah aana', 'firaaq', 'aadekhen zara', 'ek: the power of one', 'money', '8 x 10 tasveer', 'sikandar', '99', 'sanam teri kasam', 'kal kissne dekha', 'paying guests', 'new york', 'kambakkht ishq', 'sankat city', 'shortkut', 'jashnn', 'luck', 'love aaj kal', 'agyaat', 'chal chalein', 'teree sang', 'kaminey', 'life partner', 'kisaan', 'yeh mera india', 'aagey se right', 'fox', 'phir kabhi', 'vaada raha', 'dil bole hadippa!', 'wanted', 'phir kabhi', "what's your raashee?", 'dulha mil gaya', 'pyaar impossible!', 'chance pe dance', 'hello! hum lallan bol rahe hain', 'veer', 'ishqiya', 'rann', 'road to sangam', 'striker', 'my name is khan', 'aakhari decision', 'click', 'toh baat pakki!', 'karthik calling karthik', 'teen patti', 'atithi tum kab jaoge?', 'road, movie', 'rokkk', 'hide & seek', 'right yaaa wrong', 'idiot box', 'lahore', 'love sex aur dhokha', 'shaapit', 'hum tum aur ghost', 'mittal v/s mittal', 'my friend ganesha 3', 'prem kaa game', 'well done abba', 'no one killed jessica', 'impatient vivek', 'yamla pagla deewana', 'turning 30!!!', 'mumbai mast kallander', 'dhobi ghat', 'hostel', 'dil toh baccha hai ji', 'yeh saali zindagi', 'utt pataang', 'patiala house', 'aashiqui.in', '7 khoon maaf', 'kaccha limbo', 'tanu weds manu', 'f.a.l.t.u', 'thank you', 'dum maaro dum', 'zokkomon', 'shor in the city', 'chalo dilli', 'naughty @ 40', 'luv ka the end', 'haunted – 3d', 'love u...mr. kalakaar!', 'ragini mms', 'shagird', 'stanley ka dabba', '404', 'pyaar ka punchnama', 'kucch luv jaisaa', 'ready', 'shaitan', 'bheja fry 2', 'always kabhi kabhi', 'bhindi baazaar inc.', 'double dhamaal', 'bbuddah... hoga terra baap', 'delhi belly', 'murder 2', 'chillar party', 'zindagi na milegi dobara', 'singham', 'khap', 'chala mussaddi... office office', 'i am kalam', 'milta hai chance by chance', 'aarakshan', 'not a love story', 'sahi dhandhe galat bande', 'yeh dooriyan', 'bodyguard', 'that girl in yellow boots', 'mere brother ki dulhan', 'rivaaz', 'mausam', 'force', 'hum tum shabana', 'saheb, biwi aur gangster', 'tere mere phere', 'rascals', 'love breakups zindagi', 'my friend pinto', 'mujhse fraaandship karoge', 'mod', 'ra.one', 'tell me o kkhuda', 'miley naa miley hum', 'rockstar', 'shakal pe mat ja', 'desi boyz', 'the dirty picture', 'i am singh', 'ladies vs ricky bahl', 'jo hum chahein', "pappu can't dance saala", 'don 2', 'players', 'chaalis chauraasi', 'agneepath', 'gali gali chor hai', 'staying alive', 'ek main aur ekk tu', 'ekk deewana tha', 'jodi breakers', 'tere naal love ho gaya', 'london, paris, new york', 'paan singh tomar', 'will you marry me?', 'kahaani', 'chaar din ki chandni', 'say yes to love', 'agent vinod', 'blood money', 'bumboo', 'housefull 2', 'vicky donor', 'hate story', 'tezz', 'jannat 2', 'fatso!', 'ishaqzaade', 'department', 'arjun: the warrior prince', 'mla', 'rakhtbeej', 'rowdy rathore', 'ferrari ki sawaari', 'teri meri kahaani', 'gangs of wasseypur', 'bol bachchan', 'gattu', 'challo driver', 'mere dost picture abhi baki hai', 'kyaa super kool hain hum', 'jism 2', 'krishna aur kans', 'gangs of wasseypur – part 2', 'ek tha tiger', 'shirin farhad ki toh nikal padi', 'joker', 'from sydney with love', 'i m 24', 'chal pichchur banate hain', 'barfi!', 'jeena hai toh thok daal', 'heroine', 'kamaal dhamaal malamaal', 'omg – oh my god!', 'table no. 21', 'dehraadun diary', 'matru ki bijlee ka mandola', 'gangoobai', 'mumbai mirror', 'bandook', 'race 2', 'akaash vani', 'main krishna hoon', 'david', 'listen... amaya', 'special 26', 'abcd: any body can dance', 'jayantabhai ki luv story', 'murder 3', 'kai po che!', 'zila ghaziabad', 'i, me aur main', 'bloody isshq', 'saheb, biwi aur gangster returns', 'saare jahaan se mehnga', '3g - a killer connection', 'mere dad ki maruti', 'jolly llb', 'rangrezz', 'himmatwala', 'chashme baddoor', 'nautanki saala', 'commando: a one man army', 'ek thi daayan', 'aashiqui 2', 'shree', 'shootout at wadala', 'bombay talkies', 'go goa gone', 'gippi', 'aurangzeb', 'ishkq in paris', 'hum hai raahi car ke', 'zindagi 50-50', 'yeh jawaani hai deewani', 'yamla pagla deewana 2', 'fukrey', 'ankur arora murder case', 'raanjhanaa', 'enemmy', 'ghanchakkar', 'lootera', 'policegiri', 'bhaag milkha bhaag', 'b.a. pass', 'ramaiya vastavaiya', 'ship of theseus', 'issaq', 'bajatey raho', 'nasha', 'chor chor super chor', 'calapor', 'chennai express', 'madras cafe', 'satyagraha', 'zanjeer', 'shuddh desi romance', 'grand masti', 'john day', 'horror story', 'phata poster nikhla hero', 'the lunchbox', 'maazii', 'super model', 'besharam', 'war chhod na yaar', 'paapi - ek satya katha', 'boss', 'shahid', 'dilli gang', 'mickey virus', 'ishk actually', 'krrish 3', 'satya 2', 'rajjo', 'goliyon ki raasleela ram-leela', 'gori tere pyaar mein', 'singh saab the great', 'bullett raja', 'r... rajkumar', 'jackpot', 'dhoom 3', 'mr joe b. carvalho', 'dedh ishqiya', 'yaariyan', 'karle pyaar karle', 'miss lovely', 'om-dar-b-dar', 'jai ho', 'one by two', 'babloo happy hai', 'hasee toh phasee', 'heartless', 'ya rab', 'gunday', 'darr @ the mall', 'karar: the deal', 'anuradha', 'shaadi ke side effects', 'gulaab gang', 'queen', 'total siyapaa', 'bewakoofiyaan', 'neighbours', 'ankhon dekhi', 'gang of ghosts', 'lakshmi', 'ragini mms 2', 'dishkiyaoon', 'o teri', 'youngistaan', 'jal', 'main tera hero', 'bhoothnath returns', '2 states', 'dekh tamasha dekh', 'revolver rani', 'samrat & co.', 'purani jeans', 'kya dilli kya lahore', 'kahin hai mera pyar', 'hawaa hawaai', 'mastram', 'yeh hai bakrapur', 'the xposé', 'children of war', 'heropanti', 'citylights', 'filmistaan', 'holiday: a soldier is never off duty', 'fugly', 'machhli jal ki rani hai', 'humshakals', 'ek villain', 'bobby jasoos', 'lekar hum deewana dil', 'humpty sharma ki dulhania', 'hate story 2', 'riyasat', 'amit sahni ki list', 'pizza', 'kick', 'entertainment', 'singham returns', 'mad about dance', 'mardaani', 'raja natwarlal', 'mary kom', 'daawat-e-ishq', 'khoobsurat', '3 a.m.', 'chaarfutiya chhokare', 'desi kattey', 'haider', 'spark', 'tamanchey', 'mumbai 125 km', 'sonali cable', 'happy new year', 'fireflies', 'roar: tigers of the sundarbans', 'super nani', 'rang rasiya', 'the shaukeens', '6 – 5 = 2', 'kill dil', 'happy ending', 'wah taj', 'ungli', 'zed plus', 'zid', 'action jackson', 'mumbai delhi mumbai', 'sulemani keeda', 'main aur mr. riight', 'room – the mystery', 'pk', 'ugly', 'tevar', 'baby', 'dolly ki doli', 'hawaizaada', 'khamoshiyan', 'rahasya', 'shamitabh', 'msg: the messenger', 'badlapur', 'ab tak chhappan 2', 'dum laga ke haisha', 'badmashiyaan', 'dirty politics', 'hey bro', 'nh10', 'hunterrr', 'barkhaa', 'yahaan sabki lagi hai', 'detective byomkesh bakshy!', 'luckhnowi ishq', 'dharam sankat mein', 'ek paheli leela', 'court', 'margarita with a straw', 'mr. x', 'ishq ke parindey', 'kaagaz ke fools', 'gabbar is back', 'kuch kuch locha hai', 'piku', 'bombay velvet', 'tanu weds manu: returns', 'waiting', 'ishqedarriyaan', 'welcome 2 karachi', 'dil dhadakne do', 'hamari adhuri kahani', 'abcd 2', 'bezubaan ishq', 'i love ny', 'bajrangi bhaijaan', 'aisa yeh jahaan', 'masaan', 'drishyam', 'bangistan', 'gour hari dastaan', 'all is well', 'manjhi – the mountain man', 'kaun kitney paani mein', 'phantom', 'welcome back', 'hero', 'sorry daddy', 'katti batti', 'meeruthiya gangster', 'kis kisko pyaar karoon', 'bhaag johnny', 'singh is bliing', 'talvar', 'jazbaa', 'bumper draw', 'pyaar ka punchnama 2', 'wedding pullav', 'shaandaar', 'titli', 'main aur charles', 'once upon a time in bihar', 'guddu ki gun', 'love exchange', 'four pillars of basement', 'ranbanka', 'prem ratan dhan payo', 'angry indian goddesses', 'tamasha', 'hate story 3', 'kajarya', 'bajirao mastani', 'dilwale', 'wazir', 'chalk n duster', 'airlift', 'jugni', 'kyaa kool hain hum 3', 'mastizaade', 'sanam teri kasam', 'ghayal: once again', 'fitoor', 'sanam re', 'direct ishq', 'loveshhuda', 'neerja', 'dhara 302', 'aligarh', 'bollywood diaries', 'love shagun', 'tere bin laden: dead or alive', 'zubaan', 'jai gangaajal', 'global baba', 'teraa surroor', 'kapoor & sons', 'rocky handsome', 'love games', 'the blueberry hunt',
+            'kaafiron ki namaaz', 'fan', 'nil battey sannata', 'laal rang', 'santa banta pvt ltd', 'baaghi', 'shortcut safari', 'one night stand', 'traffic', '1920: london', 'azhar', 'buddha in a traffic jam', 'khel toh ab shuru hoga', 'dear dad', 'kaptaan', 'sarbjit', 'phobia', 'veerappan', 'fredrick', 'housefull 3', 'project marathwada', 'do lafzon ki kahani', 'dhanak', 'te3n', 'udta punjab', 'raman raghav 2.0', 'junooniyat', '7 hours to go', 'a scandall', 'shorgul', 'dil toh deewana hai', 'sultan', 'great grand masti', 'madaari', 'ishq click', 'm cream', 'dishoom', 'love ke funday', 'mission tiger', 'the legend of michael mishra', 'mohenjo daro', 'happy bhag jayegi', 'waarrior savitri', 'a flying jatt', 'akira', 'yea toh two much ho gayaa', 'island city', 'baar baar dekho', 'freaky ali', 'raaz: reboot', 'parched', 'banjo', 'wah taj', 'm.s. dhoni: the untold story', 'mirzya', 'msg: the warrior lion heart', 'motu patlu: king of kings', 'beiimaan love', 'saat uchakkey', 'fuddu', 'umrika', '31st october', 'my father iqbal', 'shivaay', 'ae dil hai mushkil', 'dongri ka raja', 'ishq junoon', 'rock on 2', 'tum bin ii', 'force 2', 'dear zindagi', 'saansein', 'moh maya money', 'kahaani 2', 'befikre', 'wajah tum ho', 'dangal', 'haraamkhor', 'ok jaanu', 'coffee with d', 'kaabil', 'raees', 'hind ka napak ko jawab: msg lion heart 2', 'jolly llb 2', 'running shaadi', 'the ghazi attack', 'irada', 'rangoon', 'wedding anniversary', 'mona darling', 'commando 2', 'jeena isi ka naam hai', 'badrinath ki dulhania', 'trapped', 'phillauri', 'bhanwarey', 'naam shabana', 'laali ki shaadi mein laaddoo deewana', 'mirza juuliet', 'mukti bhawan', 'begum jaan', 'noor', 'sarkar 3', 'jattu engineer', 'thodi thodi si manmaaniyan', 'a death in the gunj', "hanuman: da' damdaar", 'sweetiee weds nri', 'raabta', 'bachche kachche sachche', 'love you family', 'bank chor', 'tubelight', 'ek haseena thi ek deewana tha', 'mom', 'guest iin london', 'shab', 'lipstick under my burkha', 'munna michael', 'raag desh', 'indu sarkar', 'mubarakan', 'gurgaon', 'jab harry met sejal', 'toilet: ek prem katha', 'bareilly ki barfi', 'babumoshai bandookbaaz', 'qaidi band', 'sniff', 'baadshaho', 'shubh mangal saavdhan', 'poster boys', 'simran', 'lucknow central', 'patel ki punjabi shaadi', 'bhoomi', 'the final exit', 'jd', 'haseena parkar', 'judwaa 2', 'chef', 'babuji ek ticket bambai', 'ranchi diaries', 'secret superstar', 'golmaal again', 'jia aur jia', 'rukh', 'ribbon', 'shaadi mein zaroor aana', 'qarib qarib singlle', 'aksar 2', 'panchlait', 'dil jo na keh saka', "a daughter's tale pankh", 'julie 2', 'ajji', 'kadvi hawa', 'firangi', 'fukrey returns', 'sallu ki shaadi', 'monsoon shootout', '3 storeys', 'blackboard vs whiteboard'];
+
+        /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+        autocomplete(document.getElementById("myInput"), movies_list);
+
+        $body = $("body");
+
+    </script>
+
+
+</body>
+
+</html>
