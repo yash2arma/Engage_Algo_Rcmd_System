@@ -40,8 +40,7 @@ Average RMSE, MAE and total execution time of algorithms supported by surprise s
 
 ## Requirements:
 
-You need to import all the dependencies mention in requirements.txt file. and database which is attached in user_detail.sql file, you just need to create a server and import the data using this sql file.
-Server and URI should be 
+You should have pycharm/Visual Studio IDE for running all the files and you need to import all the dependencies mention in requirements.txt file and create a database using xampp/postgresql with the name user_detail and create tables using user_detail.sql file (attached), you just need to create a server with Server and URI given below...
 
 ### 127.0.0.3:4306 and mysql://root:@127.0.0.3:4306/user_detail
 
