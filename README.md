@@ -1,4 +1,4 @@
-Challenge-3 (Algorithm for Movie Recommendation)
+**Challenge-3 (Algorithm for Movie Recommendation)**
 
 Overview: 
 
