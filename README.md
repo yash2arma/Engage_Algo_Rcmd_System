@@ -2,7 +2,7 @@
 
 ## Overview: 
 
-It is a personalised movie recommendation web application in which I implemented two recommendation models. Before signing in, it recommends movies using content based filtering (used cosine similarity algorithm) which considers cast, director, popularity, keywords, and genre of the movie. I used a cast and director for a fan based audience. After signing in, the recommendation will be more personalised because I used a hybrid technique in which I implemented content based and collaborative filtering (used co-clustering algorithm) together. Basically collaborative filtering is based on the idea that users similar to me can be used to predict how much I will like a particular product or service those users have used/experienced. Thus, recommendations will be different for different users.
+It is a personalised movie recommendation web application in which I implemented two recommendation models. Before signing in, it recommends movies using content-based filtering (used cosine similarity algorithm) which considers the cast, director, popularity, keywords, and genre of the movie. I used casts and directors for a fan-based audience. After signing in, the recommendation will be more personalised because I used a hybrid technique in which I implemented content-based and collaborative filtering (used co-clustering algorithm) together. Collaborative filtering is based on the idea that users similar to me can be used to predict how much I will like a particular product or service those users have used/experienced. Thus, recommendations will be different for different users.
 
 ## Functionalities and Features:
 
